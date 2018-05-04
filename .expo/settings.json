@@ -1,0 +1,7 @@
+{
+  "hostType": "LAN",
+  "lanType": "ip",
+  "dev": false,
+  "minify": false,
+  "urlRandomness": "w3-mrt"
+}

@@ -1,0 +1,19 @@
+{
+  "expo": {
+   "name": "Strude",
+   "icon": "./favicon.png",
+   "version": "1.0.0",
+   "slug": "strude-shapes",
+   "sdkVersion": "26.0.0",
+   "splash": {
+     "image": "./favicon.png",
+     "backgroundColor": "#FFFFFF"
+    },
+   "ios": {
+     "bundleIdentifier": "com.gilsunshine.strude"
+   },
+   "android": {
+     "package": "com.gilsunshine.strude"
+   }
+  }
+}
