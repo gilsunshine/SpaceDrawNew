@@ -1,7 +1,7 @@
 import ExpoTHREE, {THREE} from 'expo-three';
 import React from 'react';
-import { StyleSheet, Text, View, PanResponder, TouchableOpacity, CameraRoll} from 'react-native';
-import { Card, Button, FormLabel, FormInput, Slider } from 'react-native-elements';
+import { StyleSheet, Text, View, PanResponder, TouchableOpacity, CameraRoll, Slider} from 'react-native';
+import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 import UUID from 'uuid'
 import Expo, { Constants, Camera, takeSnapshotAsync } from 'expo';
 import { Accelerometer } from 'expo';
@@ -28,11 +28,13 @@ export default class App extends React.Component {
       meshes: [],
       persist: false,
       curves: [],
-      color: {r: 255, g: 0, b: 0},
+      color: {r: 0, g: 0, b: 255},
       showColorPicker: false,
       arDisplay: 'container',
       clearScene: false,
-      cameraRollUri: null
+      cameraRollUri: null,
+      hsvColor: { h: 240, s: 1, v: 1 },
+      size: 0.05
     }
   }
 
@@ -67,13 +69,13 @@ export default class App extends React.Component {
   }
 
   setColor = (color) => {
+    this.setState({hsvColor: color})
     let h = this.mapThis(color.h, 0, 359, 0, 1)
     let s = color.s
     let v = color.v
     let newColor = this.HSVtoRGB(h, s, v)
     this.setState({color: newColor})
   }
-
 
   HSVtoRGB = (h, s, v) => {
     var r, g, b, i, f, p, q, t;
@@ -128,17 +130,38 @@ export default class App extends React.Component {
     this.setState({ cameraRollUri: saveResult });
   };
 
+  change(value) {
+    this.setState(() => {
+      return {
+        size: parseFloat(value),
+      };
+    });
+  }
+
   render() {
      return (
        <View
          behavior="padding"
          style={{ flex: 1 }}>
+         {this.state.showColorPicker ? <View
+           style={{flex: 0.1, position: 'relative'}}
+         /> : null}
          {this.state.showColorPicker ? <TriangleColorPicker
            onColorChange={color => this.setColor(color)}
-           style={{flex: 0.5, position: 'relative', top: 0, left: 0}}
+           color={this.state.hsvColor}
+           style={{flex: 0.4, position: 'relative', top: 0, left: 0}}
          /> : null}
          {this.state.showColorPicker ? <View
-           onColorChange={color => this.setColor(color)}
+           style={{flex: 0.5, position: 'relative'}}>
+             <Slider
+              step={0.001}
+              minimumValue={0.001}
+              maximumValue={0.1}
+              onValueChange={this.change.bind(this)}
+              value={this.state.size}
+            />
+          </View> : null}
+         {this.state.showColorPicker ? <View
            style={{flex: 0.5, position: 'relative'}}
          /> : null}
          {this.state.showColorPicker ? <Button
@@ -153,24 +176,26 @@ export default class App extends React.Component {
            style={styles[this.state.arDisplay]}
            onContextCreate={this._onGLContextCreate}
          />
-         {this.state.showColorPicker ? null : <Button
-            style={{position: 'absolute', bottom: 15, left: 0, width: '30%'}}
-            backgroundColor="#aaa"
-            title="SETTINGS"
-            onPress={() => {this.showColorPicker()}}
-          />
+         {this.state.showColorPicker ? null : <View>
            <Button
-             style={{position: 'absolute', bottom: 15, right: 0, width: '30%'}}
-             backgroundColor="#aaa"
-             title="CLEAR"
-             onPress={() => {this.clearScene()}}
-           />
-           <Button
-              style={{position: 'absolute', bottom: 15, left: 135, width: '30%'}}
+              style={{position: 'absolute', bottom: 15, left: 0, width: '30%'}}
               backgroundColor="#aaa"
-              title="SNAP"
-              onPress={() => {this._saveToCameraRollAsync()}}
-            /> }
+              title="SETTINGS"
+              onPress={() => {this.showColorPicker()}}
+            />
+             <Button
+               style={{position: 'absolute', bottom: 15, right: 0, width: '30%'}}
+               backgroundColor="#aaa"
+               title="CLEAR"
+               onPress={() => {this.clearScene()}}
+             />
+             <Button
+                style={{position: 'absolute', bottom: 15, left: 135, width: '30%'}}
+                backgroundColor="#aaa"
+                title="SNAP"
+                onPress={() => {this._saveToCameraRollAsync()}}
+              />
+         </View> }
        </View>
      )
    }
@@ -225,7 +250,7 @@ export default class App extends React.Component {
               bevelEnabled: false,
               extrudePath: newCurve
             };
-            let circleRadius = 0.01
+            let circleRadius = this.state.size
             var shape = new THREE.Shape()
             shape.moveTo( 0, circleRadius )
             shape.quadraticCurveTo( circleRadius, circleRadius, circleRadius, 0 );

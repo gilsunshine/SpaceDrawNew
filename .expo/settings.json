@@ -1,5 +1,5 @@
 {
-  "hostType": "LAN",
+  "hostType": "tunnel",
   "lanType": "ip",
   "dev": false,
   "minify": false,
