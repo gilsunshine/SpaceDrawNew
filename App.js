@@ -88,15 +88,6 @@ export default class App extends React.Component {
       </View>
     )
   }
-  // render() {
-  //   return (
-  //     <View style={styles.container}>
-  //       {this.state.showAr ? <Ar style={{display: this.state.display}}  gyroscopeData={this.state.gyroscopeData} accelerometerData={this.state.accelerometerData} showAr={this.showAr}/> : <SettingsPage showAr={this.showAr} setColor={this.setColor}/>}
-  //         <AccelerometerSensor setAccData={this.setAccData}/>
-  //         <GyroscopeSensor setGyroData={this.setGyroData}/>
-  //     </View>
-  //   )
-  // }
 }
 
 const styles = StyleSheet.create({

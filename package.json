@@ -29,7 +29,11 @@
     "react-native-color-picker": "^0.4.0",
     "react-native-color-wheel": "^0.1.5",
     "react-native-elements": "^0.19.1",
+    "react-native-screcorder": "^0.1.4",
     "react-native-sensors": "^3.0.0",
+    "react-native-splash-screen": "3.0.6",
+    "react-native-vector-icons": "^4.6.0",
+    "react-native-video": "^2.0.0",
     "react-redux": "^5.0.7",
     "simplex-noise": "^2.4.0",
     "three": "^0.92.0"

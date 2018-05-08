@@ -6,7 +6,7 @@
    "slug": "strude-shapes",
    "sdkVersion": "26.0.0",
    "splash": {
-     "image": "./favicon.png",
+     "image": "./splash.png",
      "backgroundColor": "#FFFFFF"
     },
    "ios": {
